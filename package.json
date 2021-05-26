@@ -1,9 +1,8 @@
 {
   "name": "@hovoh/nestjs-api-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "author": "HOVOH",
-  "private": false,
   "license": "UNLICENSED",
   "main": "dist/main.js",
   "scripts": {
