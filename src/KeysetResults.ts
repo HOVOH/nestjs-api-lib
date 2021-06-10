@@ -1,16 +1,16 @@
-export class KeysetResults {
+export class KeysetResults<T> {
   page: {
     lastToken?: string;
     firstToken?: string;
     size: number;
   };
-  results: any[];
+  results: T[];
 
-  constructor(results: any[]) {
+  constructor(results: T[], tokenCb: (t: T) => any) {
     if (results && results.length > 0) {
       this.page = {
-        lastToken: results[results.length - 1].id.toString(),
-        firstToken: results[0].id.toString(),
+        lastToken: tokenCb(results[results.length - 1]),
+        firstToken: tokenCb(results[0]),
         size: results.length,
       };
       this.results = results;
