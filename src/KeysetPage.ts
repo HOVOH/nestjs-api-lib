@@ -15,7 +15,7 @@ export class KeysetPage<K> {
   @IsIn(['ASC', 'DES'])
   order: 'ASC' | 'DES';
 
-  @Type((type) => Number)
+  @Type(() => Number)
   @IsPositive()
   @IsInt()
   @IsOptional()
