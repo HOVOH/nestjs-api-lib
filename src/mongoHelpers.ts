@@ -22,7 +22,7 @@ export class MongoQueryBuilder {
   }
 
   add(subQuery: any) {
-    this.query = merge(false, this.query, subQuery);
+    this.query = merge.recursive(false, this.query, subQuery);
     return this;
   }
 }
