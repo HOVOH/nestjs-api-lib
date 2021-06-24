@@ -1,4 +1,4 @@
-import merge from 'merge';
+import { merge } from 'merge-anything';
 import { KeysetPage } from './KeysetPage';
 import { ObjectId } from 'mongodb';
 
@@ -16,13 +16,13 @@ export class MongoQueryBuilder {
     cb: (value: AllowedType | Array<AllowedType>) => any,
   ) {
     if (typeof value === 'boolean' || value) {
-      this.query = merge.recursive(false, this.query, cb(value));
+      this.query = merge(this.query, cb(value));
     }
     return this;
   }
 
   add(subQuery: any) {
-    this.query = merge.recursive(false, this.query, subQuery);
+    this.query = merge(this.query, subQuery);
     return this;
   }
 }
@@ -39,10 +39,10 @@ export const keySetFilter = (
     page.keyset = keysetMapping(page.orderBy, page.keyset);
   }
   queryBuilder
-    .addIf(page.orderBy && page.keyset, (token) => ({
+    .addIf(page.orderBy && page.keyset, () => ({
       where: {
         [page.orderBy]: {
-          [page.order === 'DES' ? '$lt' : '$gt']: token,
+          [page.order === 'DES' ? '$lt' : '$gt']: page.keyset,
         },
       },
     }))
