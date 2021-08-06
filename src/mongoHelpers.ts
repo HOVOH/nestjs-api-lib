@@ -15,7 +15,7 @@ export class MongoQueryBuilder {
     value: AllowedType | Array<AllowedType>,
     cb: (value: AllowedType | Array<AllowedType>) => any,
   ) {
-    if (typeof value === 'boolean' || value) {
+    if (value) {
       this.query = merge(this.query, cb(value));
     }
     return this;
