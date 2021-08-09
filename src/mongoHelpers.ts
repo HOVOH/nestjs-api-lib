@@ -2,8 +2,6 @@ import { merge } from 'merge-anything';
 import { KeysetPage } from './KeysetPage';
 import { ObjectId } from 'mongodb';
 
-type AllowedType = string | number | boolean;
-
 export class MongoQueryBuilder {
   query: any;
 
@@ -11,12 +9,9 @@ export class MongoQueryBuilder {
     this.query = {};
   }
 
-  addIf(
-    value: AllowedType | Array<AllowedType>,
-    cb: (value: AllowedType | Array<AllowedType>) => any,
-  ) {
+  addIf(value: any, cb: (accumulator: any, value: any) => any) {
     if (value) {
-      this.query = merge(this.query, cb(value));
+      this.query = merge(this.query, cb(this.query, value));
     }
     return this;
   }
@@ -46,8 +41,8 @@ export const keySetFilter = (
         },
       },
     }))
-    .addIf(page.size, (size) => ({
-      take: size,
+    .addIf(page.size, () => ({
+      take: page.size,
     }))
     .addIf(page.orderBy && page.order, () => ({
       order: {
