@@ -14,12 +14,19 @@ export class ValidationPipe implements PipeTransform<any> {
     if (!metatype || !ValidationPipe.toValidate(metatype)) {
       return value;
     }
-    const object = plainToClass(metatype, value);
+    const object = ValidationPipe.plainToClass(metatype, value);
     const errors = await validate(object, { whitelist: true });
     if (errors.length > 0) {
       throw new BadRequestException('Validation failed');
     }
     return object;
+  }
+
+  static plainToClass(type: Type<any>, value: any) {
+    if (value.constructor.name !== type.name) {
+      return plainToClass(type, value);
+    }
+    return value;
   }
 
   static toValidate(metatype: Type | undefined): boolean {
